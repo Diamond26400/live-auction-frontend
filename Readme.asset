@@ -18,7 +18,6 @@ The frontend client bypasses standard RESTful polling overhead by utilizing a pe
 * **UI Delivery Subsystem:** TextMeshPro Canvas Engine
 
 ## 🕹️ Network Data Structures
-
 The client leverages nested serializable model definitions to map incoming network frames directly into executable properties:
 
 ```csharp
@@ -29,7 +28,7 @@ public class AuctionTickData
     public int highest_bid;
     public string highest_bidder;
 }
-
+[System.Serializable]
 [System.Serializable]
 public class AuctionConcludedData
 {
