@@ -25,6 +25,7 @@ public class AuctionNetworkManager : MonoBehaviour
     // Helper classes to cleanly parse incoming nested JSON frames from the server
     [System.Serializable]
     public class AuctionTickData
+    
     {
         public int timer;
         public int highest_bid;
