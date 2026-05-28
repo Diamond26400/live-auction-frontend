@@ -6,21 +6,34 @@ A highly responsive 3D/UI multiplayer bidding client engineered in Unity 6 using
 
 The frontend client bypasses standard RESTful polling overhead by utilizing a persistent, multi-threaded WebSocket transport lane configured specifically to handle high-frequency game loop ticks:
 
-* **Asynchronous Network Pipeline (NativeWebSocket):** Manages a dedicated TCP socket channel, decoding multiplexed raw network packets cleanly into serializable C# structures.
-* **Deterministic Event Parsing:** Strips Socket.io engine framing protocols down to raw JSON sub-objects using a custom index-extraction utility before routing payloads to JsonUtility.
-* **Reactive UI Layer (TextMeshPro):** Implements automated tag-driven alpha styling changes (<color>, <b>) to update high-contrast canvas displays dynamically without throwing character font asset rendering exceptions.
+* **Asynchronous Network Pipeline (`NativeWebSocket`):** Manages a dedicated TCP socket channel, decoding multiplexed raw network packets cleanly into serializable C# structures.
+* **Deterministic Event Parsing:** Strips Socket.io engine framing protocols down to raw JSON sub-objects using a custom index-extraction utility before routing payloads to `JsonUtility`.
+* **Reactive UI Layer (`TextMeshPro`):** Implements automated tag-driven alpha styling changes (`<color>`, `<b>`) to update high-contrast canvas displays dynamically without throwing character font asset rendering exceptions.
 * **Input System Integration:** Tied cleanly into Unity's New Input System package rules, keeping runtime frame update routines unblocked while exposing developer reset overrides.
 
 ## 🛠️ Implementation Details
-
 * **Game Engine:** Unity 6
 * **Language/Environment:** C# / VS Code
-* **Networking Protocol:** WebSockets (NativeWebSocket custom wrapper)
+* **Networking Protocol:** WebSockets (`NativeWebSocket` custom wrapper)
 * **UI Delivery Subsystem:** TextMeshPro Canvas Engine
 
 ## 🕹️ Network Data Structures
 
 The client leverages nested serializable model definitions to map incoming network frames directly into executable properties:
 
-* **AuctionTickData:** Parses live synchronization updates including current timer status, high bid valuations, and leading bidder usernames.
-* **AuctionConcludedData:** Evaluates final transaction parameters including winning account identification and local wallet settlement figures.
+```csharp
+[System.Serializable]
+public class AuctionTickData
+{
+    public int timer;
+    public int highest_bid;
+    public string highest_bidder;
+}
+
+[System.Serializable]
+public class AuctionConcludedData
+{
+    public string winner;
+    public int final_price;
+    public int remaining_balance;
+}
